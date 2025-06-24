@@ -1,31 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>DUMP TRUCK LOG SHEET (Limestone Crusher) (TCP)</title>
-  <style>
-    body { font-family: Arial; padding: 2rem; }
-    form { max-width: 400px; margin: auto; }
-    input, button { width: 100%; padding: 10px; margin-top: 10px; }
-    .success { color: green; }
-    .error { color: red; }
-  </style>
-</head>
-<body>
-  <h2>Truck Submission Form</h2>
-  <form id="truckForm">
-    <input type="email" id="email" placeholder="Enter your email" required>
-    <input type="number" id="truck" placeholder="Truck number (1-26)" min="1" max="26" required>
-    <button type="submit">Submit</button>
-    <p id="message"></p>
-  </form>
-
-  <script>
-    <form id="truckForm" name="submit-to-google-sheet" method="POST" action="https://script.google.com/macros/s/AKfycbxZ3xDIK9aZyu9Lm_cxpOusyt_9V5Tf9eoj7YunBxlA9cmKu51aqlPS9Q2QHnMCJhJyOA/exec">
-  <label>Email:</label>
+<form name="submit-to-google-sheet" method="POST" action="https://script.google.com/macros/s/AKfycbxZ3xDIK9aZyu9Lm_cxpOusyt_9V5Tf9eoj7YunBxlA9cmKu51aqlPS9Q2QHnMCJhJyOA/exec">
+  <label for="email">Email Address:</label>
   <input name="email" type="email" required />
-  <label>Truck Number (1-26):</label>
+
+  <label for="truck">Truck Number (1-26):</label>
   <input name="truck" type="number" min="1" max="26" required />
+
   <button type="submit">Submit</button>
 </form>
 
@@ -40,16 +19,15 @@
     fetch(form.action, {
       method: 'POST',
       body: new FormData(form)
-    }).then(response => {
+    })
+    .then(response => response.text())
+    .then(responseText => {
       message.innerHTML = "Submission successful!";
       form.reset();
-    }).catch(error => {
-      message.innerHTML = "Error submitting form. Try again.";
+    })
+    .catch(error => {
+      message.innerHTML = "Submission failed.";
       console.error('Error!', error.message);
     });
   });
 </script>
-
-</body>
-</html>
-
